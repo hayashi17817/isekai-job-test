@@ -1,0 +1,704 @@
+/* =========================================
+   基本設定・カラーパレット（CSS変数）
+   ========================================= */
+:root {
+  --bg-dark: #0b0f19;
+  --bg-card: rgba(20, 27, 45, 0.92);
+  --bg-card-inner: rgba(13, 18, 30, 0.7);
+  --gold-main: #d4af37;
+  --gold-light: #f3e5ab;
+  --gold-dark: #8a6d1c;
+  --accent-blue: #38bdf8;
+  --accent-purple: #a855f7;
+  --text-main: #f1f5f9;
+  --text-muted: #94a3b8;
+  --border-gold: rgba(212, 175, 55, 0.4);
+  --shadow-glow: 0 0 25px rgba(212, 175, 55, 0.15);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Noto Sans JP', sans-serif;
+  background-color: var(--bg-dark);
+  background-image: 
+    radial-gradient(circle at 20% 20%, rgba(56, 189, 248, 0.08) 0%, transparent 40%),
+    radial-gradient(circle at 80% 80%, rgba(168, 85, 247, 0.08) 0%, transparent 40%),
+    linear-gradient(180deg, #090d16 0%, #131b2e 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 16px;
+  line-height: 1.6;
+}
+
+.container {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* =========================================
+   ヘッダー・フッター
+   ========================================= */
+.guild-header {
+  text-align: center;
+  margin-bottom: 24px;
+}
+
+.guild-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  color: var(--gold-main);
+  margin-bottom: 4px;
+}
+
+.guild-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--gold-light);
+  text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+}
+
+.guild-footer {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+}
+
+/* =========================================
+   共通カード＆画面切り替えアニメーション
+   ========================================= */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border-gold);
+  border-radius: 16px;
+  padding: 32px 24px;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6), var(--shadow-glow);
+  position: relative;
+  backdrop-filter: blur(10px);
+}
+
+/* カード四隅の装飾ライン */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 6px;
+  border: 1px solid rgba(212, 175, 55, 0.18);
+  border-radius: 11px;
+  pointer-events: none;
+}
+
+.screen {
+  display: none;
+  animation: fadeIn 0.45s ease forwards;
+}
+
+.screen.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =========================================
+   ① スタート画面
+   ========================================= */
+.emblem {
+  font-size: 3.2rem;
+  text-align: center;
+  margin-bottom: 12px;
+  filter: drop-shadow(0 0 12px rgba(212, 175, 55, 0.4));
+}
+
+.section-heading {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 1.4rem;
+  text-align: center;
+  color: var(--gold-light);
+  margin-bottom: 14px;
+}
+
+.description {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  margin-bottom: 28px;
+}
+
+.input-group {
+  margin-bottom: 28px;
+}
+
+.input-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--gold-main);
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.text-input {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 1rem;
+  color: var(--text-main);
+  background: var(--bg-card-inner);
+  border: 1px solid var(--border-gold);
+  border-radius: 10px;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+
+.text-input:focus {
+  border-color: var(--gold-light);
+  box-shadow: 0 0 12px rgba(212, 175, 55, 0.3);
+}
+
+/* =========================================
+   ボタンデザイン
+   ========================================= */
+.button-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn {
+  width: 100%;
+  padding: 15px 20px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  font-family: inherit;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #d4af37 0%, #aa821c 100%);
+  color: #0b0f19;
+  border: none;
+  box-shadow: 0 4px 15px rgba(212, 175, 55, 0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(212, 175, 55, 0.5);
+  filter: brightness(1.08);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--gold-light);
+  border: 1px solid var(--border-gold);
+}
+
+.btn-secondary:hover {
+  background: rgba(212, 175, 55, 0.12);
+}
+
+.btn-text {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+  cursor: pointer;
+  padding: 6px 10px;
+  transition: color 0.2s;
+}
+
+.btn-text:hover:not(:disabled) {
+  color: var(--gold-light);
+}
+
+.btn-text:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+/* =========================================
+   ② 質問画面
+   ========================================= */
+.quiz-header {
+  margin-bottom: 24px;
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+}
+
+.q-num {
+  font-family: 'Cinzel', serif;
+  font-weight: 700;
+  color: var(--gold-main);
+  font-size: 1rem;
+}
+
+.q-axis {
+  color: var(--text-muted);
+}
+
+.progress-bar-bg {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  width: 11%;
+  background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+  border-radius: 999px;
+  transition: width 0.35s ease;
+}
+
+.question-text {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  min-height: 3.6em;
+  display: flex;
+  align-items: center;
+  margin-bottom: 24px;
+  color: #fff;
+}
+
+.choices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.choice-btn {
+  width: 100%;
+  text-align: left;
+  padding: 15px 18px;
+  background: var(--bg-card-inner);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: var(--text-main);
+  font-size: 0.98rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.2s ease;
+}
+
+.choice-btn:hover {
+  border-color: var(--gold-main);
+  background: rgba(212, 175, 55, 0.12);
+  transform: translateX(4px);
+}
+
+.choice-mark {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(212, 175, 55, 0.15);
+  color: var(--gold-light);
+  font-weight: 700;
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.quiz-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+/* =========================================
+   ③ ローディング画面（魔法陣）
+   ========================================= */
+.loading-card {
+  text-align: center;
+  padding: 60px 24px;
+}
+
+.magic-circle {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  margin: 0 auto 24px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.magic-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px dashed var(--gold-main);
+}
+
+.magic-ring.outer {
+  inset: 0;
+  animation: spinRight 6s linear infinite;
+}
+
+.magic-ring.inner {
+  inset: 14px;
+  border-style: dotted;
+  border-color: var(--accent-blue);
+  animation: spinLeft 4s linear infinite;
+}
+
+.magic-icon {
+  font-size: 2.5rem;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes spinRight {
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes spinLeft {
+  100% { transform: rotate(-360deg); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+
+.loading-title {
+  font-family: 'Shippori Mincho', serif;
+  color: var(--gold-light);
+  margin-bottom: 8px;
+}
+
+.loading-sub {
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+/* =========================================
+   ④ 結果画面（ギルド証）
+   ========================================= */
+.license-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  border-bottom: 1px solid var(--border-gold);
+  padding-bottom: 12px;
+  margin-bottom: 20px;
+}
+
+.license-badge {
+  font-family: 'Cinzel', serif;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  background: rgba(212, 175, 55, 0.18);
+  color: var(--gold-light);
+  padding: 4px 10px;
+  border-radius: 4px;
+  border: 1px solid var(--border-gold);
+}
+
+.license-holder {
+  font-size: 0.92rem;
+  color: var(--text-muted);
+}
+
+.license-holder strong {
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.job-showcase {
+  text-align: center;
+  padding: 20px 12px;
+  background: radial-gradient(circle, rgba(212, 175, 55, 0.14) 0%, transparent 70%);
+  border-radius: 12px;
+  margin-bottom: 22px;
+}
+
+.job-icon {
+  font-size: 3.8rem;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 4px 12px rgba(212, 175, 55, 0.4));
+}
+
+.job-subtitle {
+  font-size: 0.9rem;
+  color: var(--gold-main);
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.job-name {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 1.85rem;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(212, 175, 55, 0.4);
+  margin-bottom: 8px;
+}
+
+.job-code {
+  display: inline-block;
+  font-family: 'Cinzel', serif;
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  letter-spacing: 0.15em;
+}
+
+.result-section {
+  background: var(--bg-card-inner);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 16px;
+}
+
+.result-heading {
+  font-size: 0.92rem;
+  color: var(--gold-light);
+  margin-bottom: 10px;
+}
+
+.result-desc {
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.75;
+}
+
+/* パラメータバー */
+.stats-container {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.stat-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-bottom: 5px;
+}
+
+.stat-bar-bg {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  overflow: hidden;
+  position: relative;
+}
+
+/* 中央の基準線 */
+.stat-bar-bg::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.stat-bar-fill {
+  height: 100%;
+  width: 50%;
+  background: linear-gradient(90deg, var(--accent-blue), var(--gold-main));
+  border-radius: 999px;
+  transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.partner-text {
+  font-size: 0.92rem;
+  color: var(--text-main);
+}
+
+.sub-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+/* =========================================
+   モーダル（全ジョブ図鑑）＆トースト通知
+   ========================================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 8, 15, 0.85);
+  backdrop-filter: blur(4px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  z-index: 100;
+}
+
+.modal-backdrop.open {
+  display: flex;
+  animation: fadeIn 0.25s ease;
+}
+
+.modal-content {
+  width: 100%;
+  max-width: 680px;
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+/* モーダルでは内側の装飾線を消してスクロール時のズレを防ぐ */
+.modal-content::before {
+  display: none;
+}
+
+/* モーダルのスクロールバーをおしゃれにする */
+.modal-content::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-content::-webkit-scrollbar-track {
+  background: rgba(13, 18, 30, 0.5);
+  border-radius: 0 16px 16px 0;
+}
+.modal-content::-webkit-scrollbar-thumb {
+  background: var(--gold-dark);
+  border-radius: 999px;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-gold);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
+}
+
+.modal-title {
+  font-family: 'Shippori Mincho', serif;
+  font-size: 1.2rem;
+  color: var(--gold-light);
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-muted);
+  font-size: 1.4rem;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.modal-close:hover {
+  color: #fff;
+}
+
+.dex-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+}
+
+.dex-item {
+  background: var(--bg-card-inner);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.dex-item-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.dex-icon {
+  font-size: 1.6rem;
+}
+
+.dex-name {
+  font-weight: 700;
+  color: var(--gold-light);
+  font-size: 0.98rem;
+}
+
+.dex-sub {
+  font-size: 0.78rem;
+  color: var(--gold-main);
+  margin-bottom: 6px;
+}
+
+.dex-desc {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+/* トースト通知 */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--gold-main);
+  color: #0b0f19;
+  font-weight: 700;
+  font-size: 0.9rem;
+  padding: 12px 24px;
+  border-radius: 999px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s ease;
+  z-index: 200;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* レスポンシブ調整 */
+@media (max-width: 480px) {
+  .pc-only { display: none; }
+  .guild-title { font-size: 1.45rem; }
+  .card { padding: 24px 18px; }
+  .job-name { font-size: 1.5rem; }
+  .sub-actions { grid-template-columns: 1fr; }
+}

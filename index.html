@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>異世界ギルド・適性ジョブ診断</title>
+  
+  <!-- OGP設定（XやLINEでシェアしたときの見栄えを良くする） -->
+  <meta property="og:title" content="異世界ギルド・適性ジョブ診断">
+  <meta property="og:description" content="9つの質問からあなたの魂の資質を解析し、異世界での天職（全8ジョブ）を鑑定します！">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://あなたのGitHubユーザー名.github.io/リポジトリ名/">
+  <meta property="og:image" content="https://あなたのGitHubユーザー名.github.io/リポジトリ名/ogp.png">
+  <meta property="og:site_name" content="異世界ギルド・適性ジョブ診断">
+
+  <!-- X（旧Twitter）専用のカード設定 -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="異世界ギルド・適性ジョブ診断">
+  <meta name="twitter:description" content="9つの質問からあなたの魂の資質を解析し、異世界での天職（全8ジョブ）を鑑定します！">
+  <meta name="twitter:image" content="https://あなたのGitHubユーザー名.github.io/リポジトリ名/ogp.png">
+
+  <!-- Google Fonts: ファンタジー感のある明朝体と読みやすいゴシック体 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Noto+Sans+JP:wght@400;500;700&family=Shippori+Mincho:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="stylesheet.css">
+</head>
+<body>
+  <!-- 背景の装飾パーティクル用 -->
+  <div class="bg-overlay"></div>
+
+  <main class="container">
+    <!-- 共通ヘッダー -->
+    <header class="guild-header">
+      <p class="guild-sub">ISEKAI JOB TEST</p>
+      <h1 class="guild-title">異世界ギルド・適性ジョブ診断</h1>
+    </header>
+
+    <!-- ① スタート画面（ギルド受付） -->
+    <section id="screen-start" class="screen active card">
+      <div class="emblem">⚔️</div>
+      <h2 class="section-heading">魂の資質鑑定へようこそ</h2>
+      <p class="description">
+        9つの質問に答えることで、あなたの内なる魔力と性格傾向を解析し、<br class="pc-only">
+        異世界で最も輝く「天職（ジョブ）」を鑑定します。
+      </p>
+
+      <div class="input-group">
+        <label for="player-name" class="input-label">冒険者名（ニックネーム）</label>
+        <input 
+          type="text" 
+          id="player-name" 
+          class="text-input" 
+          placeholder="例：カズマ（未入力でもOK）" 
+          maxlength="16"
+        >
+      </div>
+
+      <div class="button-group">
+        <button id="btn-start" class="btn btn-primary">
+          <span>鑑定を始める</span>
+          <span class="btn-arrow">▶</span>
+        </button>
+        <button id="btn-open-dex" class="btn btn-secondary">
+          📖 全ジョブ図鑑を見る
+        </button>
+      </div>
+    </section>
+
+    <!-- ② 質問画面（適性試験） -->
+    <section id="screen-quiz" class="screen card">
+      <div class="quiz-header">
+        <div class="progress-info">
+          <span id="question-number" class="q-num">Q.1 / 9</span>
+          <span id="question-axis-hint" class="q-axis">第一の試練：行動の源泉</span>
+        </div>
+        <div class="progress-bar-bg">
+          <div id="progress-bar-fill" class="progress-bar-fill"></div>
+        </div>
+      </div>
+
+      <div id="question-container" class="question-body">
+        <p id="question-text" class="question-text">ここに質問文が表示されます</p>
+
+        <div class="choices-list">
+          <button class="choice-btn" data-score="2">
+            <span class="choice-mark">◎</span>
+            <span class="choice-label">非常に当てはまる</span>
+          </button>
+          <button class="choice-btn" data-score="1">
+            <span class="choice-mark">〇</span>
+            <span class="choice-label">やや当てはまる</span>
+          </button>
+          <button class="choice-btn" data-score="-1">
+            <span class="choice-mark">△</span>
+            <span class="choice-label">あまり当てはまらない</span>
+          </button>
+          <button class="choice-btn" data-score="-2">
+            <span class="choice-mark">✕</span>
+            <span class="choice-label">全く当てはまらない</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="quiz-footer">
+        <button id="btn-prev" class="btn-text" disabled>← 前の質問に戻る</button>
+      </div>
+    </section>
+
+    <!-- ③ ローディング画面（魔力解析演出） -->
+    <section id="screen-loading" class="screen card loading-card">
+      <div class="magic-circle">
+        <div class="magic-ring outer"></div>
+        <div class="magic-ring inner"></div>
+        <span class="magic-icon">🔮</span>
+      </div>
+      <h2 class="loading-title">魂の波長を解析中…</h2>
+      <p class="loading-sub">水晶玉があなたの深層心理を映し出しています</p>
+    </section>
+
+    <!-- ④ 結果画面（ギルド証発行） -->
+    <section id="screen-result" class="screen card result-card">
+      <div class="license-header">
+        <span class="license-badge">GUILD OFFICIAL LICENSE</span>
+        <p class="license-holder">冒険者：<strong id="result-player-name">名無しの冒険者</strong> 殿</p>
+      </div>
+
+      <div class="job-showcase">
+        <div id="result-icon" class="job-icon">⚔️</div>
+        <p id="result-subtitle" class="job-subtitle">限界突破の孤高なる刃</p>
+        <h2 id="result-job-name" class="job-name">狂戦士（バーサーカー）</h2>
+        <span id="result-code" class="job-code">TYPE: VPS</span>
+      </div>
+
+      <div class="result-section">
+        <h3 class="result-heading">◆ 資質と性格の鑑定書</h3>
+        <p id="result-description" class="result-desc"></p>
+      </div>
+
+      <div class="result-section">
+        <h3 class="result-heading">◆ 魂のパラメータ分析</h3>
+        <div class="stats-container">
+          <!-- 軸1 -->
+          <div class="stat-row">
+            <div class="stat-labels">
+              <span>前衛・直感 (V)</span>
+              <span>後衛・慎重 (R)</span>
+            </div>
+            <div class="stat-bar-bg">
+              <div id="stat-bar-1" class="stat-bar-fill"></div>
+            </div>
+          </div>
+          <!-- 軸2 -->
+          <div class="stat-row">
+            <div class="stat-labels">
+              <span>突破・情熱 (P)</span>
+              <span>知略・論理 (M)</span>
+            </div>
+            <div class="stat-bar-bg">
+              <div id="stat-bar-2" class="stat-bar-fill"></div>
+            </div>
+          </div>
+          <!-- 軸3 -->
+          <div class="stat-row">
+            <div class="stat-labels">
+              <span>孤高・特化 (S)</span>
+              <span>協調・支援 (C)</span>
+            </div>
+            <div class="stat-bar-bg">
+              <div id="stat-bar-3" class="stat-bar-fill"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="result-section partner-box">
+        <h3 class="result-heading">◆ 相性の良いパーティメンバー</h3>
+        <p id="result-partner" class="partner-text"></p>
+      </div>
+
+      <div class="button-group result-actions">
+        <button id="btn-share" class="btn btn-primary">
+          𝕏 鑑定結果をポストする
+        </button>
+        <div class="sub-actions">
+          <button id="btn-retry" class="btn btn-secondary">🔄 もう一度鑑定する</button>
+          <button id="btn-open-dex-result" class="btn btn-secondary">📖 全ジョブ図鑑</button>
+        </div>
+      </div>
+    </section>
+
+    <footer class="guild-footer">
+      <p>&copy; 2026 Isekai Job Test</p>
+    </footer>
+  </main>
+
+  <!-- 全ジョブ図鑑モーダル -->
+  <div id="modal-dex" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-content card">
+      <div class="modal-header">
+        <h2 class="modal-title">📖 異世界ギルド・全8ジョブ図鑑</h2>
+        <button id="btn-close-dex" class="modal-close" aria-label="閉じる">✕</button>
+      </div>
+      <div id="dex-list" class="dex-grid">
+        <!-- JSで全8ジョブを自動生成 -->
+      </div>
+    </div>
+  </div>
+
+  <!-- コピー完了トースト通知 -->
+  <div id="toast" class="toast">鑑定結果をクリップボードにコピーしました！</div>
+
+  <script src="script.js"></script>
+</body>
+</html>
