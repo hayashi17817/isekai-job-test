@@ -268,6 +268,8 @@ function calculateAndShowResult() {
 
   showScreen('result');
 
+
+/*
   // パラメータバーのアニメーション（各軸のスコア範囲は -6 〜 +6 → 10% 〜 90% にマッピング）
   setTimeout(() => {
     document.getElementById('stat-bar-1').style.width = `${calcBarPercent(scores.VR)}%`;
@@ -282,6 +284,45 @@ function calcBarPercent(score) {
   // 左側（V, P, S）が強いほどバーが長くなるように計算
   const normalized = (score + maxScore) / (maxScore * 2); // 0.0 〜 1.0
   return Math.round(12 + normalized * 76);
+}
+*/
+
+// パラメータバーのアニメーション（中央50%から左右に伸びる）
+  setTimeout(() => {
+    updateStatBar('stat-bar-1', scores.VR);
+    updateStatBar('stat-bar-2', scores.PM);
+    updateStatBar('stat-bar-3', scores.SC);
+  }, 100);
+}
+
+// スコア(-6〜+6)に応じて中央から左右にバーを伸ばす関数
+function updateStatBar(barId, score) {
+  const bar = document.getElementById(barId);
+  const maxScore = 6;
+
+  // 左右のラベル要素を取得してリセット
+  const labels = bar.closest('.stat-row').querySelectorAll('.stat-labels span');
+  labels[0].classList.remove('active-label');
+  labels[1].classList.remove('active-label');
+
+  // クラスの初期化
+  bar.classList.remove('left', 'right');
+
+  if (score >= 0) {
+    // 左側（V, P, S）が強い場合：中央から左へ伸びる（最小でも6%は伸ばして0点でも視認できるようにする）
+    const widthPercent = Math.max(6, Math.round((score / maxScore) * 48));
+    bar.classList.add('left');
+    bar.style.left = `${50 - widthPercent}%`;
+    bar.style.width = `${widthPercent}%`;
+    labels[0].classList.add('active-label'); // 左ラベルを強調
+  } else {
+    // 右側（R, M, C）が強い場合：中央から右へ伸びる
+    const widthPercent = Math.round((Math.abs(score) / maxScore) * 48);
+    bar.classList.add('right');
+    bar.style.left = '50%';
+    bar.style.width = `${widthPercent}%`;
+    labels[1].classList.add('active-label'); // 右ラベルを強調
+  }
 }
 
 // =========================================
@@ -324,12 +365,24 @@ function showToast(message) {
   }, 2800);
 }
 
+/*
 // もう一度鑑定する
 document.getElementById('btn-retry').addEventListener('click', () => {
   // バーをリセット
   document.getElementById('stat-bar-1').style.width = '50%';
   document.getElementById('stat-bar-2').style.width = '50%';
   document.getElementById('stat-bar-3').style.width = '50%';
+  showScreen('start');
+});
+*/
+
+// もう一度鑑定する
+document.getElementById('btn-retry').addEventListener('click', () => {
+  ['stat-bar-1', 'stat-bar-2', 'stat-bar-3'].forEach(id => {
+    const bar = document.getElementById(id);
+    bar.style.left = '50%';
+    bar.style.width = '0%';
+  });
   showScreen('start');
 });
 

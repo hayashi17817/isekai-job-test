@@ -516,17 +516,17 @@ body {
   margin-bottom: 5px;
 }
 
-.stat-bar-bg {
+/* .stat-bar-bg {
   width: 100%;
   height: 10px;
   background: rgba(255, 255, 255, 0.08);
   border-radius: 999px;
   overflow: hidden;
   position: relative;
-}
+} */
 
 /* 中央の基準線 */
-.stat-bar-bg::after {
+/* .stat-bar-bg::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -534,14 +534,59 @@ body {
   bottom: 0;
   width: 2px;
   background: rgba(255, 255, 255, 0.3);
+} */
+
+.stat-bar-bg {
+  width: 100%;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  /* ↓ overflow: hidden; を消す（基準線を上下に突き出させるため） */
+  position: relative;
 }
 
-.stat-bar-fill {
+/* 中央の基準線（ゲージの上下に少し突き出して光るデザイン） */
+.stat-bar-bg::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -4px;     /* 上に4px突き出す */
+  bottom: -4px;  /* 下に4px突き出す */
+  width: 2px;
+  background: var(--gold-light); /* 全体のデザインに馴染む明るいシャンパンゴールド */
+  border-radius: 2px;
+  transform: translateX(-50%);
+  box-shadow: 0 0 8px rgba(243, 229, 171, 0.85); /* ほんのり発光させて視認性アップ */
+  z-index: 2;
+}
+
+/* .stat-bar-fill {
   height: 100%;
   width: 50%;
   background: linear-gradient(90deg, var(--accent-blue), var(--gold-main));
   border-radius: 999px;
   transition: width 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+} */
+
+.stat-bar-fill {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 0%;
+  transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* 左側（V・P・S）が強いときのバー色（ゴールド系） */
+.stat-bar-fill.left {
+  background: linear-gradient(270deg, var(--gold-dark), var(--gold-light));
+  border-radius: 999px 0 0 999px;
+}
+
+/* 右側（R・M・C）が強いときのバー色（神秘的なブルー〜パープル系） */
+.stat-bar-fill.right {
+  background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple));
+  border-radius: 0 999px 999px 0;
 }
 
 .partner-text {
@@ -553,6 +598,12 @@ body {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
+}
+
+/* 判定された側のラベルを強調する */
+.stat-labels span.active-label {
+  color: var(--gold-light);
+  font-weight: 700;
 }
 
 /* =========================================
